@@ -86,7 +86,7 @@ const updatePlace = (req, res, next) => {
   updatedPlace.description = description;
 
   DUMMY_PLACES[placeIndex] = updatedPlace;
-  res.status(200).json({ place: updatePlace });
+  res.status(200).json({ place: updatedPlace });
 };
 
 const deletePlace = (req, res, next) => {};
