@@ -78,7 +78,15 @@ const updatePlace = (req, res, next) => {
   const { title, description } = req.body;
   const placeId = req.params.pid;
 
-  const updeatedPlace = DUMMY_PLACES.find((p) => p.id === placeId);
+  // using the spread value and curly braces we make a copy using the old keyvalue object
+  // this makes sure the object isnt updated until everything is done and working
+  const updatedPlace = { ...DUMMY_PLACES.find((p) => p.id === placeId) };
+  const placeIndex = DUMMY_PLACES.findIndex((p) => p.id === placeId);
+  updatedPlace.title = title;
+  updatedPlace.description = description;
+
+  DUMMY_PLACES[placeIndex] = updatedPlace;
+  res.status(200).json({ place: updatePlace });
 };
 
 const deletePlace = (req, res, next) => {};
