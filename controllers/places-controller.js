@@ -40,14 +40,16 @@ const getPlaceById = (req, res, next) => {
 // function getPlaceById() { ... }
 // const getPlaceById = function() { ... }
 
-const getPlaceByUserId = (req, res, next) => {
+const getPlacesByUserId = (req, res, next) => {
   const userId = req.params.uid;
-  const place = DUMMY_PLACES.find((p) => {
+  const places = DUMMY_PLACES.filter((p) => {
     return p.creator === userId;
   });
 
-  if (!place) {
-    throw new HttpError("Could not find a place for the provided user id", 404);
+  if (!places || places.lenght === 0) {
+    return next(
+      new HttpError("Could not find a places for the provided user id", 404)
+    );
     /*  const error = new Error("Could not find a place for the provided user id.");
     error.code = 404;
     // could use throw error in syncronous BUT if in a async function next() should be used!
@@ -55,7 +57,7 @@ const getPlaceByUserId = (req, res, next) => {
     throw error; */
   }
 
-  res.json({ place });
+  res.json({ places });
 };
 
 const createPlace = (req, res, next) => {
@@ -100,7 +102,7 @@ const deletePlace = (req, res, next) => {
 };
 
 exports.getPlaceById = getPlaceById;
-exports.getPlaceByUserId = getPlaceByUserId;
+exports.getPlacesByUserId = getPlacesByUserId;
 exports.createPlace = createPlace;
 exports.updatePlace = updatePlace;
 exports.deletePlace = deletePlace;
