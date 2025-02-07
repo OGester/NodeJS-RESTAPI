@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require("uuid");
 
 const HttpError = require("../models/http-error");
 
-const DUMMY_PLACES = [
+let DUMMY_PLACES = [
   {
     id: "p1",
     title: "Empire State Building",
@@ -89,7 +89,15 @@ const updatePlace = (req, res, next) => {
   res.status(200).json({ place: updatedPlace });
 };
 
-const deletePlace = (req, res, next) => {};
+const deletePlace = (req, res, next) => {
+  const placeId = req.params.pid;
+  // creates a new copy of DUMMY_PLACES omitting the placeId to be removed, keeping all that dont match
+  // and overrides the old array
+  DUMMY_PLACES = DUMMY_PLACES.filter((p) => p.id !== placeId);
+  // if i want to return the place declare it above first.
+  // only returning a message for now
+  res.status(200).json({ message: "Deleted place." });
+};
 
 exports.getPlaceById = getPlaceById;
 exports.getPlaceByUserId = getPlaceByUserId;
