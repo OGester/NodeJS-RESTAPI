@@ -46,15 +46,10 @@ const getPlacesByUserId = (req, res, next) => {
     return p.creator === userId;
   });
 
-  if (!places || places.lenght === 0) {
+  if (!places || places.length === 0) {
     return next(
       new HttpError("Could not find a places for the provided user id", 404)
     );
-    /*  const error = new Error("Could not find a place for the provided user id.");
-    error.code = 404;
-    // could use throw error in syncronous BUT if in a async function next() should be used!
-    // throw automatically cancels following functions
-    throw error; */
   }
 
   res.json({ places });
